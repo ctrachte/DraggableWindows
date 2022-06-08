@@ -1,7 +1,7 @@
 <div align="center">
   <h1>DraggableWindows.js</h1>
-  ![DraggableWindows v1.0.0](https://github.com/ctrachte/DraggableWindows/blob/main/2022-06-08%2018-33-46.gif)
 </div>
+  ![DraggableWindows v1.0.0](https://github.com/ctrachte/DraggableWindows/blob/6e93bbdc40c1453f34c06c2ee8864c3ce49183ca/2022-06-08%2018-33-46.gif)
 
 <p align="left">
   Ever wanted to replicate the windows UI within the browser using JS and HTML? 

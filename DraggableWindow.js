@@ -126,9 +126,9 @@ class DraggableWindow
         {
             this.closeButton = document.createElement('span');
             this.closeButton.style.position = "absolute";
-            this.closeButton.style.right = 0;
+            this.closeButton.style.right = "3px";
             this.closeButton.innerHTML = `
-                <b type="button" class="pull-right text-danger closeWindowButton" aria-label="Close">✖</b>
+                <b type="button" class="pull-right closeWindowButton" aria-label="Close">✖</b>
             `;
             if (!this.hasManager)
             {

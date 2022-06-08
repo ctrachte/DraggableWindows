@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="./DraggableWindow.js"></script>
+</head>
+
+<body>
+    <div class="windowContainer" style="width: 420px;">
+    </div>
+    <h1 class="testHeading">Test Window</h1>
+</body>
+
+<script type="module">
+    // there should only be this one variable here to instantiate the class into the container element 
+    const testWindow = new DraggableWindow({
+        container: document.querySelector('.windowContainer'),
+        header: "Test Window",
+        body:document.querySelector('.testHeading'),
+        close: true,
+        draggable: true,
+        locked: false,
+        resizeable: true,
+        offsetLeft: "0px",
+        offsetTop: "0px",
+        onMaximize: function () {
+            console.log("onMaximize:", this.dates);
+        },
+        onMinimize: function () {
+            console.log("onMinimize:", this.dates);
+        },
+        onClose: function () {
+            console.log("onClose:", this.dates);
+        }
+    });
+</script>
+
+</html>

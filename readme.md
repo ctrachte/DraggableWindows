@@ -2,7 +2,7 @@
   <h1>DraggableWindows.js</h1>
 </div>
 
-<p align="center">
+<p align="left">
   Ever wanted to replicate the windows UI within the browser using JS and HTML? 
   Now you can! Draggable windows lets you silo large enterprise applications into digestable apps, and run each app side by side.
   Perfect for microservices, multi-tasking, role-based productivity software, and data-driven application management.

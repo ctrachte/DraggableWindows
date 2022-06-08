@@ -7,6 +7,7 @@
   Now you can! Draggable windows lets you silo large enterprise applications into digestable apps, and run each app side by side.
   Perfect for microservices, multi-tasking, role-based productivity software, and data-driven application management.
 </p>
+
 ## Features
 
   *Detailed documentation coming soon!*

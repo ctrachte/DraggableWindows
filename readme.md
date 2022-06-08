@@ -18,7 +18,7 @@
  - Download the project and open `index.html` in your browser
  - Add or remove options and elements from the options object. 
 
-## API/Route Table (optional)
+## API/Route Table
 
   *Detailed documentation coming soon!*
 

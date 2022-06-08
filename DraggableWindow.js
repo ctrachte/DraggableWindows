@@ -127,7 +127,7 @@ class DraggableWindow
         {
             this.closeButton = document.createElement('span');
             this.closeButton.innerHTML = `
-                <i type="button" class="is-1 pfi-math-multiply mt-1 me-1 pull-right closeWindowButton" aria-label="Close"></i>
+                <i type="button" class="pull-right closeWindowButton" aria-label="Close">X</i>
             `;
             if (!this.hasManager)
             {

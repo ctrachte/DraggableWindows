@@ -11,7 +11,7 @@
 <body>
     <div class="windowContainer" style="width: 420px;">
     </div>
-    <h1 class="testHeading">Test Window</h1>
+    <h1 class="testHeading mt-3 text-center">Test Window</h1>
 </body>
 
 <script type="module">
@@ -22,10 +22,10 @@
         body:document.querySelector('.testHeading'),
         close: true,
         draggable: true,
-        locked: false,
+        locked: true,
         resizeable: true,
-        offsetLeft: "0px",
-        offsetTop: "0px",
+        offsetLeft: "0",
+        offsetTop: "0",
         onMaximize: function () {
             console.log("onMaximize:", this.dates);
         },

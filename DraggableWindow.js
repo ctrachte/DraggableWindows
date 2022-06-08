@@ -529,6 +529,9 @@ class DraggableWindow
                 el.style.width = this.width;
             }
         }
+        this.header.style.width = el.style.width;
+        this.header.style.left = el.style.left;
+        this.header.style.top = el.style.top;
     }
     showShadow(x, y)
     {

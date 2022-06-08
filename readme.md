@@ -1,6 +1,7 @@
 <div align="center">
   <h1>DraggableWindows.js</h1>
 </div>
+
   ![DraggableWindows v1.0.0](https://github.com/ctrachte/DraggableWindows/blob/6e93bbdc40c1453f34c06c2ee8864c3ce49183ca/2022-06-08%2018-33-46.gif)
 
 <p align="left">

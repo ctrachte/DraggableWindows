@@ -37,9 +37,9 @@ class DraggableWindow
         this.footer = this.options.footer; // footer content
         this.body = this.options.body; // body content
         this.showScrollButton = this.showScrollButton.bind(this);
+        this.locked = (options.locked !== null && typeof options.locked !== "undefined") ? options.locked : true; // windows will be locked to grid sizes by default
         this.snapping = (options.snapping === null || typeof options.snapping === "undefined") ? options.locked : options.snapping;  // turn this on/off for snapping to grid
         this.draggable = (options.draggable !== null && typeof options.draggable !== "undefined") ? options.draggable : true; // windows will be locked in place/position if false, eg. NOT draggable.
-        this.locked = (options.locked !== null && typeof options.locked !== "undefined") ? options.locked : true; // windows will be locked to grid sizes by default
         if (this.locked) this.resizeable = false;
         if (this.locked) this.snapping = true;
         this.title = (typeof options.title === "undefined" || options.title === null) ? this.id : options.title;// title of window, defaults to id
@@ -59,7 +59,6 @@ class DraggableWindow
         {
             this.callouts = function () {console.error('Callouts have been disabled via window options.')}
         }
-        //this.callouts.success('Test')
         //initial element creation methods:
         if (typeof this.header === "string")
         {
@@ -126,8 +125,10 @@ class DraggableWindow
         if (this.close)
         {
             this.closeButton = document.createElement('span');
+            this.closeButton.style.position = "absolute";
+            this.closeButton.style.right = 0;
             this.closeButton.innerHTML = `
-                <i type="button" class="pull-right closeWindowButton" aria-label="Close">X</i>
+                <b type="button" class="pull-right text-danger closeWindowButton" aria-label="Close">✖</b>
             `;
             if (!this.hasManager)
             {

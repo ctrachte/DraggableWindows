@@ -22,8 +22,10 @@
         body:document.querySelector('.testHeading'),
         close: true,
         draggable: true,
-        locked: true,
-        resizeable: true,
+        locked: false,
+        snapping: true,
+        resizeable: false,
+        position: ["top", "left"],
         offsetLeft: "0",
         offsetTop: "0",
         onMaximize: function () {

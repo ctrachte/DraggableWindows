@@ -30,11 +30,10 @@
 [Please visit this contribution guide for GitHub open source if you are unsure about any of these steps:](https://gist.github.com/Chaser324/ce0505fbed06b947d962)
 
 1. Fork the Project (top right there should be a button)
-4. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-5. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-6. Push to the Branch (`git push origin feature/AmazingFeature`)
-7. Please track your progress on the [project board](https://github.com/ctrachte/Datepicker.js/projects/1)
-8. Open a Pull Request 
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request 
 
 *Code will be reviewed before being merged. If your code does not quite work or needs revision it may not be merged to the master.*
 

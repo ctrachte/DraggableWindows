@@ -10,45 +10,71 @@
 </head>
 
 <body>
-    
     <h1 class="text-center">New Draggable Window:<button class=" ms-3 btn btn-success" id="newWindowButton"> + </button></h1>
     <div class="windowContainer" style="width: 420px;">
     </div>
+
 </body>
 
 <script type="module">
+    // this would eventually be used to track windows, manage them etc.
     const windows = [];
+    // track the number of windows open:
+    let counter = 0;
+    // all the available positions for the Draggable Windows, via the grid.
     const positions = [["left","top"],["right","top"],["left", "bottom"],["right","bottom"],["right","middle"],["left","middle"],["middle","top"],["middle","bottom"],["middle","middle"]]
     const newWindowButton = document.getElementById('newWindowButton');
-    let counter = 0;
+    // basic form element in the format of a string template literal, we will append this to our body.
+    let basicForm = `
+    <form id="exampleForm" class="mx-2 mt-4">
+        <h2 class="text-center text-purple">Sign Up Today!</h2>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1">
+          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit" class="submitButton btn btn-success">Submit</button>
+      </form>
+      `;
+
+    // when we click the 'new window' button:
     newWindowButton.onclick = (e) => {
+        // prep work: creating unique content for every window created:
+        let bodyContent = document.createElement('div')// our body content for the window
+        bodyContent.innerHTML = basicForm; // add the form to the body
+        let button = bodyContent.querySelector('.submitButton'); // target this specific window's content only
+        button.onclick = (e) => alert('Submitted form!'); // make the submit throw an alert
+
+        // new window opens at the corresponding position from the above array.
         let orientation = positions[counter];
-        counter++;
-        if(counter >= positions.length) counter = 0;
-            // there should only be this one variable here to instantiate the class into the container element 
+        counter++; // next position!
+        if(counter >= positions.length) counter = 0; // unless we reached the last position in the array, then go back to first.
+        // there should only be this one variable here to instantiate the class into the container element 
         let window = new DraggableWindow({
-            container: document.querySelector('.windowContainer'),
-            header: "Test Window (" + (windows.length +1) + ") " + " - Orientation: " + orientation[0] + ", " + orientation[1],
-            body: "",
-            close: true,
-            draggable: true,
-            locked: true,
-            snapping: true,
-            resizeable: false,
-            initialPosition: orientation,
-            offsetLeft: "0",
-            offsetTop: "80",
-            onMaximize: function () {
-                console.log("onMaximize:", this.dates);
-            },
-            onMinimize: function () {
-                console.log("onMinimize:", this.dates);
-            },
+            container: document.querySelector('.windowContainer'), // we need a starting point for the window in the DOM
+            header: "Test Window (" + (windows.length +1) + ") " + " - Orientation: " + orientation[0] + ", " + orientation[1], // heading that also shows the orientation chosen
+            body: bodyContent, // defined above
+            close: true, // user can close the window
+            draggable: true, // user can drag the window
+            locked: true, // only grid positions allowed
+            snapping: true, //snaps to grid positions
+            resizeable: false, // user cannot resize the window
+            initialPosition: orientation, // determined above by the array of positions
+            offsetLeft: "0", // no side menu yet...
+            offsetTop: "80", // so we can see the app header
             onClose: function () {
-                console.log("onClose:", this.dates);
+                console.log("onClose:", this.dates); // fires when the window closes
             }
         });
-        windows.push(window);
+        windows.push(window); // add this window to an array to track it.
     }
 
 </script>

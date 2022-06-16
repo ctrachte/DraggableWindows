@@ -78,7 +78,6 @@
  - `close` - boolean, will determine whether or not the user can close the window, and if the 'close' icon shows at the top right of the header.
  - `locked` - boolean, will determine whether or not the window *must* be snapped to a grid space, if false, window can exist free form, or snapped to grid.
  - `snapping` - boolean, will determine whether or not the grid will exist for the Draggable Window to snap to. 
- - `
 
 ## Contributing [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/inessadl/readme/issues)
 

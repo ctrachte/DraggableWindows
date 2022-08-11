@@ -259,17 +259,19 @@ class DraggableWindow
     }
     createShadows()
     {
-        this.shadows = {
-            topRightShadow: this.container.appendChild(document.createElement('div')),
-            bottomRightShadow: this.container.appendChild(document.createElement('div')),
-            topLeftShadow: this.container.appendChild(document.createElement('div')),
-            bottomleftShadow: this.container.appendChild(document.createElement('div')),
-            topShadow: this.container.appendChild(document.createElement('div')),
-            bottomShadow: this.container.appendChild(document.createElement('div')),
-            leftShadow: this.container.appendChild(document.createElement('div')),
-            rightShadow: this.container.appendChild(document.createElement('div')),
-            maxShadow: this.container.appendChild(document.createElement('div'))
-        };
+        if (!this.shadows) {
+            this.shadows = {
+                topRightShadow: this.container.appendChild(document.createElement('div')),
+                bottomRightShadow: this.container.appendChild(document.createElement('div')),
+                topLeftShadow: this.container.appendChild(document.createElement('div')),
+                bottomleftShadow: this.container.appendChild(document.createElement('div')),
+                topShadow: this.container.appendChild(document.createElement('div')),
+                bottomShadow: this.container.appendChild(document.createElement('div')),
+                leftShadow: this.container.appendChild(document.createElement('div')),
+                rightShadow: this.container.appendChild(document.createElement('div')),
+                maxShadow: this.container.appendChild(document.createElement('div'))
+            };
+        }
         this.shadowStyle = this.options.shadowStyle || `
                 position: absolute;
                 display: none;

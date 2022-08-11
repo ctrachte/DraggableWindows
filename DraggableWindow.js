@@ -191,6 +191,7 @@ class DraggableWindow
             `;
             this.draggableContent.style.paddingTop = this.header.getBoundingClientRect().height + "px";
             this.draggableContent.appendChild(this.header);
+            console.log(this.header)
         }
         // scroll buttons
         this.scrollButton = document.createElement('span');
@@ -256,22 +257,32 @@ class DraggableWindow
         {
             this.snapTo(this.draggableContent, this.options.initialPosition[0], this.options.initialPosition[1])
         }
+
     }
     createShadows()
     {
-        if (!this.shadows) {
-            this.shadows = {
-                topRightShadow: this.container.appendChild(document.createElement('div')),
-                bottomRightShadow: this.container.appendChild(document.createElement('div')),
-                topLeftShadow: this.container.appendChild(document.createElement('div')),
-                bottomleftShadow: this.container.appendChild(document.createElement('div')),
-                topShadow: this.container.appendChild(document.createElement('div')),
-                bottomShadow: this.container.appendChild(document.createElement('div')),
-                leftShadow: this.container.appendChild(document.createElement('div')),
-                rightShadow: this.container.appendChild(document.createElement('div')),
-                maxShadow: this.container.appendChild(document.createElement('div'))
-            };
+        if (this.shadows) {
+            this.shadows.topRightShadow.remove();
+            this.shadows.bottomRightShadow.remove();
+            this.shadows.topLeftShadow.remove();
+            this.shadows.bottomleftShadow.remove();
+            this.shadows.topShadow.remove();
+            this.shadows.bottomShadow.remove();
+            this.shadows.leftShadow.remove();
+            this.shadows.rightShadow.remove();
+            this.shadows.maxShadow.remove();
         }
+        this.shadows = {
+            topRightShadow: this.container.appendChild(document.createElement('div')),
+            bottomRightShadow: this.container.appendChild(document.createElement('div')),
+            topLeftShadow: this.container.appendChild(document.createElement('div')),
+            bottomleftShadow: this.container.appendChild(document.createElement('div')),
+            topShadow: this.container.appendChild(document.createElement('div')),
+            bottomShadow: this.container.appendChild(document.createElement('div')),
+            leftShadow: this.container.appendChild(document.createElement('div')),
+            rightShadow: this.container.appendChild(document.createElement('div')),
+            maxShadow: this.container.appendChild(document.createElement('div'))
+        };
         this.shadowStyle = this.options.shadowStyle || `
                 position: absolute;
                 display: none;
@@ -281,6 +292,7 @@ class DraggableWindow
                 background-color: rgba(0,0,0, 0.3);
                 border: dashed 2px gold;
             `;
+            console.log(this.shadows, this.shadowStyle)
         this.shadows.topLeftShadow.style = this.shadowStyle;
         this.shadows.topLeftShadow.style.top = this.offsetTop + "px";
         this.shadows.topLeftShadow.style.left = this.offsetLeft + "px";
@@ -326,15 +338,14 @@ class DraggableWindow
     dragElement(el)
     {
         let context = this;
+        window.addEventListener("resize", function () {
+            context.checkSize();
+            context.createShadows();
+        });
+
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         if (!this.draggable) return;
-        context.isMobile = (navigator.userAgent.match(/Android/i)
-            || navigator.userAgent.match(/webOS/i)
-            || navigator.userAgent.match(/iPhone/i)
-            || navigator.userAgent.match(/iPad/i)
-            || navigator.userAgent.match(/iPod/i)
-            || navigator.userAgent.match(/BlackBerry/i)
-            || navigator.userAgent.match(/Windows Phone/i));
+        context.checkSize();
         if (!el)
         {
             el = this.draggableContent;
@@ -360,13 +371,7 @@ class DraggableWindow
         function dragMouseDown(e)
         {
             e = e || window.event;
-            context.isMobile = (navigator.userAgent.match(/Android/i)
-                || navigator.userAgent.match(/webOS/i)
-                || navigator.userAgent.match(/iPhone/i)
-                || navigator.userAgent.match(/iPad/i)
-                || navigator.userAgent.match(/iPod/i)
-                || navigator.userAgent.match(/BlackBerry/i)
-                || navigator.userAgent.match(/Windows Phone/i));
+            context.checkSize();
             e.preventDefault();
             if (e.target.id === context.id + "-footer")
             {
@@ -477,6 +482,7 @@ class DraggableWindow
     }
     snapTo(el, x, y)
     {
+        console.log(this.isMobile)
         if (this.isMobile)
         {
             if (window.innerHeight > window.innerWidth)
@@ -526,6 +532,9 @@ class DraggableWindow
                     el.style.width = parseFloat(window.innerWidth) - this.offsetLeft + "px";
                 }
             }
+            this.header.style.width = el.style.width;
+            this.header.style.left = el.style.left;
+            this.header.style.top = el.style.top;
             return;
         }
         if (x !== 'middle' && y !== 'middle')
@@ -604,6 +613,9 @@ class DraggableWindow
                 el.style.width = this.width;
             }
         }
+        this.header.style.width = el.style.width;
+        this.header.style.left = el.style.left;
+        this.header.style.top = el.style.top;
     }
     showShadow(x, y)
     {
@@ -699,7 +711,13 @@ class DraggableWindow
     }
     checkSize()
     {
-        // TODO: check for smaller screen breakpoints and disable certain features, eg. draggable, snapping
+        this.isMobile = (navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i));
     }
     scrollbarVisible(element)
     {

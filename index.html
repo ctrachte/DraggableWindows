@@ -13,7 +13,6 @@
     <h1 class="text-center">New Draggable Window:<button class=" ms-3 btn btn-success" id="newWindowButton"> + </button></h1>
     <div class="windowContainer" style="width: 420px;">
     </div>
-
 </body>
 
 <script type="module">
@@ -64,12 +63,14 @@
             body: bodyContent, // defined above
             close: true, // user can close the window
             draggable: true, // user can drag the window
-            locked: true, // only grid positions allowed
+            locked: false, // only grid positions allowed
             snapping: true, //snaps to grid positions
             resizeable: false, // user cannot resize the window
             initialPosition: orientation, // determined above by the array of positions
             offsetLeft: "0", // no side menu yet...
             offsetTop: "80", // so we can see the app header
+            height:"50%",
+            width:"50%",
             onClose: function () {
                 console.log("onClose:", this.dates); // fires when the window closes
             }

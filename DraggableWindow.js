@@ -326,29 +326,53 @@ class DraggableWindow
         let context = this;
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         if (!this.draggable) return;
+        context.isMobile = (navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i));
         if (!el)
         {
             el = this.draggableContent;
             if (context.header)
             {
                 context.header.onmousedown = dragMouseDown;
+                context.header.ontouchmove = dragMouseDown;
+                if (context.isMobile) context.header.addEventListener('touchmove', dragMouseDown, { passive: false });
             }
             if (context.footer)
             {
                 context.footer.onmousedown = dragMouseDown;
+                context.footer.ontouchmove = dragMouseDown;
+                if (context.isMobile) context.header.addEventListener('touchmove', dragMouseDown, { passive: false });
             }
             if (!context.footer && !context.header)
             {
                 el.onmousedown = dragMouseDown;
+                el.ontouchmove = dragMouseDown;
+                if (context.isMobile) el.addEventListener('touchmove', dragMouseDown, { passive: false });
             }
         }
         function dragMouseDown(e)
         {
-
             e = e || window.event;
+            context.isMobile = (navigator.userAgent.match(/Android/i)
+                || navigator.userAgent.match(/webOS/i)
+                || navigator.userAgent.match(/iPhone/i)
+                || navigator.userAgent.match(/iPad/i)
+                || navigator.userAgent.match(/iPod/i)
+                || navigator.userAgent.match(/BlackBerry/i)
+                || navigator.userAgent.match(/Windows Phone/i));
             e.preventDefault();
             if (e.target.id === context.id + "-footer")
             {
+                if (isMobile)
+                {
+                    e.clientX = e.touches[0].clientX;
+                    e.clientY = e.touches[0].clientY
+                }
                 // get the mouse cursor position at startup:
                 pos3 = e.clientX;
                 pos4 = e.clientY;
@@ -358,13 +382,22 @@ class DraggableWindow
                     el.style.left = e.clientX - 180 + "px";
 
                 }
-                document.onmouseup = closeDragElement;
-                // call a function whenever the cursor moves:
-                document.onmousemove = elementDrag;
-                document.ontouchmove = elementDrag;
-                document.ontouchend = elementDrag;
+                if (context.isMobile)
+                {
+                    context.footer.addEventListener('touchend', closeDragElement, { passive: false });
+                    context.footer.addEventListener('touchmove', elementDrag, { passive: false });
+                } else
+                {
+                    document.onmouseup = closeDragElement;
+                    document.onmousemove = elementDrag;
+                }
             } else if (e.target.id === context.id + "-header")
             {
+                if (context.isMobile)
+                {
+                    e.clientX = e.touches[0].clientX;
+                    e.clientY = e.touches[0].clientY
+                }
                 // get the mouse cursor position at startup:
                 pos3 = e.clientX;
                 pos4 = e.clientY;
@@ -373,9 +406,15 @@ class DraggableWindow
                     el.style.top = e.clientY + "px";
                     el.style.left = e.clientX - 180 + "px";
                 }
-                document.onmouseup = closeDragElement;
-                // call a function whenever the cursor moves:
-                document.onmousemove = elementDrag;
+                if (context.isMobile)
+                {
+                    context.header.addEventListener('touchend', closeDragElement, { passive: false });
+                    context.header.addEventListener('touchmove', elementDrag, { passive: false });
+                } else
+                {
+                    document.onmouseup = closeDragElement;
+                    document.onmousemove = elementDrag;
+                }
             }
         }
 
@@ -383,6 +422,11 @@ class DraggableWindow
         {
             e = e || window.event;
             e.preventDefault();
+            if (e.touches)
+            {
+                e.clientX = e.touches[0].clientX;
+                e.clientY = e.touches[0].clientY
+            }
             if (context.snapping)
             {
                 el.style.width = "360px";
@@ -401,6 +445,7 @@ class DraggableWindow
             context.header.style.top = (el.offsetTop - pos2) + "px";
             if (context.snapping)
             {
+                //console.table(el.getBoundingClientRect().width, el.getBoundingClientRect().height , el.offsetLeft, el.offsetTop, pos1, pos2, pos3, pos4)
                 context.orientation = context.checkPos((el.offsetLeft - pos1) + (.5 * el.getBoundingClientRect().width), (el.offsetTop - pos2) + (.5 * el.getBoundingClientRect().height));
                 context.showShadow(context.orientation[0], context.orientation[1]);
             }
@@ -420,36 +465,64 @@ class DraggableWindow
             /* stop moving when mouse button is released:*/
             document.onmouseup = null;
             document.onmousemove = null;
+            if (context.isMobile)
+            {
+                if (context.header) context.header.ontouchmove = null;
+                if (context.footer) context.footer.ontouchmove = null;
+                if (el) el.ontouchmove = null;
+            }
         }
     }
     snapTo(el, x, y)
     {
-        if (this.small)
+        if (this.isMobile)
         {
-            if (x === 'middle' && y === 'top')
+            if (window.innerHeight > window.innerWidth)
             {
-                el.style.bottom = "";
-                el.style.top = this.offsetTop + "px"
-                el.style.left = this.offsetLeft + "px";
-                el.style.right = "";
-                el.style.height = parseFloat(window.innerHeight * .5) - this.halfsetTop + "px";
-                el.style.width = parseFloat(window.innerWidth) - this.offsetLeft + "px";
-            } else if (x === 'middle' && y === 'bottom')
-            {
-                el.style.bottom = "0px";
-                el.style.top = "";
-                el.style.left = this.offsetLeft + "px";
-                el.style.right = "";
-                el.style.height = parseFloat(window.innerHeight * .5) - this.halfsetTop + "px";
-                el.style.width = parseFloat(window.innerWidth) - this.offsetLeft + "px";
+                if (x === 'middle' && y === 'top')
+                {
+                    el.style.bottom = "";
+                    el.style.top = this.offsetTop + "px"
+                    el.style.left = this.offsetLeft + "px";
+                    el.style.right = "";
+                    el.style.height = parseFloat(window.innerHeight * .5) - this.halfsetTop + "px";
+                    el.style.width = parseFloat(window.innerWidth) - this.offsetLeft + "px";
+                } else if (x === 'middle' && y === 'bottom')
+                {
+                    el.style.bottom = "0px";
+                    el.style.top = "";
+                    el.style.left = this.offsetLeft + "px";
+                    el.style.right = "";
+                    el.style.height = parseFloat(window.innerHeight * .5) - this.halfsetTop + "px";
+                    el.style.width = parseFloat(window.innerWidth) - this.offsetLeft + "px";
+                }
             } else
             {
-                el.style.left = this.offsetLeft + "px";
-                el.style.right = "";
-                el.style.bottom = "";
-                el.style.top = this.offsetTop + "px"
-                el.style.height = parseFloat(window.innerHeight) - this.offsetTop + "px";
-                el.style.width = parseFloat(window.innerWidth) - this.offsetLeft + "px";
+                if (x === 'right' && y === 'middle')
+                {
+                    el.style.left = "";
+                    el.style.right = "0px";
+                    el.style.bottom = "";
+                    el.style.top = this.offsetTop + "px"
+                    el.style.height = parseFloat(window.innerHeight) - this.offsetTop + "px";
+                    el.style.width = parseFloat(window.innerWidth * .5) - this.halfsetLeft + "px";
+                } else if (x === 'left' && y === 'middle')
+                {
+                    el.style.left = this.offsetLeft + "px";
+                    el.style.right = "";
+                    el.style.bottom = "";
+                    el.style.top = this.offsetTop + "px"
+                    el.style.height = parseFloat(window.innerHeight) - this.offsetTop + "px";
+                    el.style.width = parseFloat(window.innerWidth * .5) - this.halfsetLeft + "px";
+                } else
+                {
+                    el.style.left = this.offsetLeft + "px";
+                    el.style.right = "";
+                    el.style.bottom = "";
+                    el.style.top = this.offsetTop + "px"
+                    el.style.height = parseFloat(window.innerHeight) - this.offsetTop + "px";
+                    el.style.width = parseFloat(window.innerWidth) - this.offsetLeft + "px";
+                }
             }
             return;
         }
@@ -529,26 +602,40 @@ class DraggableWindow
                 el.style.width = this.width;
             }
         }
-        this.header.style.width = el.style.width;
-        this.header.style.left = el.style.left;
-        this.header.style.top = el.style.top;
     }
     showShadow(x, y)
     {
         // TODO: need to measure from middle of draggable, not cursor pos
-        if (this.small)
+        if (this.isMobile)
         {
-            if (y === 'bottom' && x === 'middle')
+            if (window.innerHeight > window.innerWidth)
             {
-                this.hideShadows();
-                this.shadows.bottomShadow.style.display = 'block';
-            } else if (y === 'top' && x === 'middle')
-            {
-                this.hideShadows();
-                this.shadows.topShadow.style.display = 'block';
+                if (y === 'bottom' && x === 'middle')
+                {
+                    this.hideShadows();
+                    this.shadows.bottomShadow.style.display = 'block';
+                } else if (y === 'top' && x === 'middle')
+                {
+                    this.hideShadows();
+                    this.shadows.topShadow.style.display = 'block';
+                } else
+                {
+                    this.hideShadows();
+                }
             } else
             {
-                this.hideShadows();
+                if (y === 'middle' && x === 'right')
+                {
+                    this.hideShadows();
+                    this.shadows.rightShadow.style.display = 'block';
+                } else if (y === 'middle' && x === 'left')
+                {
+                    this.hideShadows();
+                    this.shadows.leftShadow.style.display = 'block';
+                } else
+                {
+                    this.hideShadows();
+                }
             }
             return
         }

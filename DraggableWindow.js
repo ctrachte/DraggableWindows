@@ -15,7 +15,6 @@ class DraggableWindow
         this.hasManager = options.hasManager // READOONLY - will only be true if GlobalWindowManager created this window. READONLY
         this.offsetLeft = options.offsetLeft || document.getElementById('sidebar').getBoundingClientRect().width; //set this for a left toolbar width
         this.offsetTop = options.offsetTop || document.getElementById('headnav').getBoundingClientRect().height; // set this for a top toolbar width
-        //console.log(this.offsetTop)
         this.halfsetTop = this.offsetTop / 2; //for calculations only
         this.halfsetLeft = this.offsetLeft / 2; //for calculations only
         this.height = (options.height === null || typeof options.height === "undefined") ? window.innerHeight - this.offsetTop + "px" : options.height; // set height of window on creation
@@ -191,7 +190,6 @@ class DraggableWindow
             `;
             this.draggableContent.style.paddingTop = this.header.getBoundingClientRect().height + "px";
             this.draggableContent.appendChild(this.header);
-            console.log(this.header)
         }
         // scroll buttons
         this.scrollButton = document.createElement('span');
@@ -292,7 +290,6 @@ class DraggableWindow
                 background-color: rgba(0,0,0, 0.3);
                 border: dashed 2px gold;
             `;
-            console.log(this.shadows, this.shadowStyle)
         this.shadows.topLeftShadow.style = this.shadowStyle;
         this.shadows.topLeftShadow.style.top = this.offsetTop + "px";
         this.shadows.topLeftShadow.style.left = this.offsetLeft + "px";
@@ -482,7 +479,6 @@ class DraggableWindow
     }
     snapTo(el, x, y)
     {
-        console.log(this.isMobile)
         if (this.isMobile)
         {
             if (window.innerHeight > window.innerWidth)
